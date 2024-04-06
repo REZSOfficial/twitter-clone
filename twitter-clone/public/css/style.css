@@ -1,0 +1,72 @@
+:root {
+    --body-bg-color: #1a1e24;
+    --main-bg-color: #222831;
+    --medium-bg-color: #31363F;
+}
+
+*{
+    font-family: "Raleway", sans-serif;
+}
+
+body {
+    background-color: var(--body-bg-color) !important;
+}
+
+.bg-custom-dark{
+    background-color: var(--main-bg-color) !important;
+}
+
+.post-hover{
+    background-color: unset;
+    transition: 200ms;
+}
+
+.post-hover:hover{
+    background-color: var(--medium-bg-color) !important;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.like-hover{
+    color: unset;
+    transition: 200ms;
+}
+
+.like-hover:hover{
+    color: red;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.comment-hover{
+    color: unset;
+    transition: 200ms;
+}
+
+.comment-hover:hover{
+    color: yellow;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.post-input {
+    all: unset;
+    border-radius: 5px;
+    caret-color: cyan;
+    color: var(--main-bg-color);
+    overflow: hidden;
+}
+
+#image-preview, #add-img-label {
+    cursor: pointer;
+}
+
+#image-input {
+    height: 0px;
+    width: 0px;
+}
+
+.hidden{
+    visibility: hidden;
+}
