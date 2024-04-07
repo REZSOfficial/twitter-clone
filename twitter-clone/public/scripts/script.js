@@ -47,3 +47,29 @@ function like(postId, userId) {
         },
     });
 }
+
+function comment(postId, userId, userName) {
+    event.preventDefault();
+
+    let data = {
+        post_id: postId,
+        user_id: userId,
+        text: $("#comment-text-" + postId).val(),
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/api/posts/comment/" + postId,
+        data: data,
+        success: function (response) {
+            $("#comments-" + postId).append(
+                '<hr class="text-light"><div class="mb-2 p-2 rounded"><div class="fw-bold text-info">' +
+                    userName +
+                    "</div><div>" +
+                    data.text +
+                    "</div></div>"
+            );
+        },
+        error: function (xhr, status, error) {},
+    });
+}
