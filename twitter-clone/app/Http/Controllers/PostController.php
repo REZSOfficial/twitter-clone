@@ -29,7 +29,7 @@ class PostController extends Controller
         return redirect('/home');
     }
 
-    public function view($id)
+    public function show($id)
     {
         return view('posts.create');
     }

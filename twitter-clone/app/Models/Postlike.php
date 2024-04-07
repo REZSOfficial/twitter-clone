@@ -10,8 +10,7 @@ class Postlike extends Model
 {
     protected $fillable = [
         'post_id',
-        'user_id',
-        'amount'
+        'user_id'
     ];
 
     public function post(): BelongsTo
