@@ -57,6 +57,9 @@ function comment(postId, userId, userName) {
         text: $("#comment-text-" + postId).val(),
     };
 
+    let commentCount = $("#post-comment" + postId).text();
+    commentCount = parseInt(commentCount);
+
     $.ajax({
         type: "POST",
         url: "/api/posts/comment/" + postId,
@@ -69,7 +72,32 @@ function comment(postId, userId, userName) {
                     data.text +
                     "</div></div>"
             );
+            $("#comment-text-" + postId).val("");
+            $("#post-comment" + postId).html(commentCount + 1);
         },
-        error: function (xhr, status, error) {},
+        error: function (xhr, status, error) {
+            $("#comment-text-" + postId).addClass("border-danger");
+        },
     });
+}
+
+function showMessages(userId, senderId) {
+    $.ajax({
+        url: "/api/messages/show",
+        type: "GET",
+        data: { user_id: userId, sender_id: senderId },
+        success: function (response) {
+            $("#messages-container").append(response);
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr);
+        },
+    });
+}
+
+function sendMessage(userId, receiverId) {
+    let message = $("#message-input").val();
+    console.log("USER: " + userId);
+    console.log("RECEIVER: " + receiverId);
+    console.log("MESSAGE: " + message);
 }

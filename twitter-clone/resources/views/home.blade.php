@@ -6,7 +6,15 @@
     <div class="row justify-content-center my-5">
         <div class="col-md-8">
             <div class="card bg-custom-dark text-light shadow">
-                <div class=" card-header">{{'@'}}{{$post->user->username}}</div>
+
+                <div class="card-header d-flex justify-content-between">
+                    <div>{{'@'}}{{$post->user->username}}</div>
+                    <div onclick="showMessages({{Auth::user()->id}}, {{$post->user->id}})">
+                        <i class="fa-solid fa-message text-info"></i>
+                    </div>
+                </div>
+
+
                 <div class="card-body d-flex flex-column align-items-center justify-content-center post-hover">
                     <div>{{$post->text}}</div>
                     <hr class="text-light w-75">
@@ -33,4 +41,5 @@
     @endforeach
     @include('posts.show')
 </div>
+<div id="messages-container" class="fixed-bottom w-fit"></div>
 @endsection

@@ -16,12 +16,6 @@ class PostcommentController extends Controller
             'text' => 'required'
         ]);
 
-        /*$data = [
-            'post_id' => $request['post_id'],
-            'user_id' => $request['user_id'],
-            'text' => $request['text'],
-        ];*/
-
         Postcomment::create($data);
 
         return response()->json(['success' => true]);

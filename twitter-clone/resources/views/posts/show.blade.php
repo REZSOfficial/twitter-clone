@@ -12,19 +12,13 @@
                     <div class="d-flex my-3 me-2">
                         <div class="d-flex w-100">
                             <textarea rows="2" id="comment-text-{{$post->id}}" type="text"
-                                class="w-100 post-input text-info bg-dark border border-info fw-bold @error('text') border-danger is-invalid @enderror"
-                                name="comment-text-{{$post->id}}" autocomplete="comment-text-{{$post->id}}"
-                                autofocus></textarea>
+                                class="w-100 me-1 post-input text-info bg-dark border border-info fw-bold" name="text"
+                                autocomplete="text" autofocus></textarea>
                             <button type="submit" class="btn btn-dark border-info"
                                 onclick="comment({{$post->id}}, {{Auth::user()->id}}, {{json_encode(Auth::user()->username)}})">
                                 {{ __('Comment') }}
                             </button>
                         </div>
-                        @error('comment-text-{{$post->id}}')
-                        <span class="invalid-feedback text-danger" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
 
                     </div>
                     <div id="comments-{{$post->id}}">
@@ -35,7 +29,9 @@
                             <div class="fw-bold text-info">
                                 {{$postcomment->user->username}}
                             </div>
-                            <div>{{$postcomment->text}}</div>
+                            <div>
+                                {{$postcomment->text}}
+                            </div>
                         </div>
 
                         @endforeach

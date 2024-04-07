@@ -76,17 +76,34 @@ body {
     overflow-y: scroll;
 }
 
-.custom-scroll::-webkit-scrollbar {
+.custom-scroll::-webkit-scrollbar, .message-area::-webkit-scrollbar {
     border-radius: 5px;
     width: 10px;
 }
 
-.custom-scroll::-webkit-scrollbar-track {
+.custom-scroll::-webkit-scrollbar-track, .message-area::-webkit-scrollbar-track {
     border-radius: 5px;
     background: var(--medium-bg-color);
 }
 
-.custom-scroll::-webkit-scrollbar-thumb {
+.custom-scroll::-webkit-scrollbar-thumb, .message-area::-webkit-scrollbar-thumb {
     background-color: gray;
     border-radius: 5px;
+}
+
+.message{
+    width: 18vw;
+    height: 40vh;
+}
+
+.message-area > div {
+    width: fit-content;
+}
+
+.fa-solid{
+    cursor: pointer;
+}
+
+.w-fit {
+    width: fit-content !important;
 }
