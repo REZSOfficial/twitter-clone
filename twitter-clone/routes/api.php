@@ -19,4 +19,5 @@ Route::delete('/posts/removelike/{id}', [PostlikeController::class, 'remove_like
 Route::post('/posts/comment/{id}', [PostcommentController::class, 'save']);
 
 //MESSAGES
-Route::middleware('auth:sanctum')->get('/messages/show', [MessageController::class, 'show']);
+Route::get('/messages/show', [MessageController::class, 'show']);
+Route::post('/messages/send', [MessageController::class, 'send']);

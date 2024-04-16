@@ -41,5 +41,5 @@
     @endforeach
     @include('posts.show')
 </div>
-<div id="messages-container" class="fixed-bottom w-fit"></div>
+<div id="messages-container" class="fixed-bottom w-fit d-flex flex-row"></div>
 @endsection

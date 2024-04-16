@@ -35,9 +35,11 @@ function like(postId, userId) {
         success: function (response) {
             if (isLiked) {
                 $("#post-like" + postId).html(likeCount - 1);
+                $("#post-like-icon" + postId).removeClass("fa-solid");
                 $("#post-like-icon" + postId).removeClass("text-danger");
             } else {
                 $("#post-like" + postId).html(likeCount + 1);
+                $("#post-like-icon" + postId).addClass("fa-solid");
                 $("#post-like-icon" + postId).addClass("text-danger");
             }
         },
@@ -82,22 +84,42 @@ function comment(postId, userId, userName) {
 }
 
 function showMessages(userId, senderId) {
+    hideMessage();
+    if (!$("#message-" + userId).hasClass("opened")) {
+        $.ajax({
+            url: "/api/messages/show",
+            type: "GET",
+            data: { user_id: userId, sender_id: senderId },
+            success: function (response) {
+                $("#messages-container").append(response);
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr);
+            },
+        });
+    }
+}
+
+function hideMessage() {
+    $("#messages-container").empty();
+}
+
+function sendMessage(userId, receiverId) {
+    let message = $("#message-input").val();
+    console.log(receiverId);
     $.ajax({
-        url: "/api/messages/show",
-        type: "GET",
-        data: { user_id: userId, sender_id: senderId },
+        url: "/api/messages/send",
+        type: "POST",
+        data: { sender_id: userId, receiver_id: receiverId, message: message },
         success: function (response) {
-            $("#messages-container").append(response);
+            $("#sent-message-" + receiverId).append(
+                "<p class='fs-6 bg-dark border border-info text-info rounded p-2'>" +
+                    message +
+                    "</p>"
+            );
         },
         error: function (xhr, status, error) {
             console.error(xhr);
         },
     });
-}
-
-function sendMessage(userId, receiverId) {
-    let message = $("#message-input").val();
-    console.log("USER: " + userId);
-    console.log("RECEIVER: " + receiverId);
-    console.log("MESSAGE: " + message);
 }
