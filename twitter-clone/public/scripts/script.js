@@ -125,81 +125,97 @@ function sendMessage(userId, receiverId) {
         },
     });
 }
-/*
-$(document).ready(function () {
-    let originalElement = $("#username");
+function convertToInputField(element) {
+    let inputValue = $(element).text();
+    let userId = $(element).attr("id");
 
-    originalElement.on("click", function () {
-        convertToInputField(id, originalElement);
+    let inputElement = $("<input>", {
+        type: "text",
+        value: inputValue,
+        class: "border border-dark border-1 fs-1 text-info rounded bg-dark w-25 h-100",
     });
-});
-*/
-function convertToInputField(id, element) {
-    console.log(id);
-    let inputValue = element.textContent; // Get text content of the original element
-    console.log(inputValue);
 
-    // Create a new input element (using raw DOM element)
-    let inputElement = document.createElement("input");
-    inputElement.type = "text";
-    inputElement.value = inputValue;
-    inputElement.className =
-        "border border-dark border-1 fs-1 text-info rounded bg-dark w-25 h-100";
+    $(element).replaceWith(inputElement);
 
-    // Replace the original element with the new input element
-    element.parentNode.replaceChild(inputElement, element);
-
-    // Focus on the input field after replacing
     inputElement.focus();
 
-    inputElement.addEventListener("keydown", function (event) {
+    inputElement.on("keydown", function (event) {
         if (event.keyCode === 13) {
-            // Check if Enter key is pressed
-            updateUsername(id, inputElement.value); // Call function to update username
+            updateUsername(userId, inputElement.val());
+            revertToOriginalElement(
+                userId,
+                inputElement,
+                $(inputElement).val()
+            );
         }
     });
 
-    // Add blur event handler to revert back to original element
-    inputElement.addEventListener("blur", function () {
-        revertToOriginalElement(id, inputElement, inputValue);
+    inputElement.on("blur", function () {
+        revertToOriginalElement(userId, inputElement, $(element).text());
     });
 }
 
-function revertToOriginalElement(id, inputElement, inputValue) {
-    console.log(inputValue);
-    let originalText = inputElement.value; // Get the value entered in the input field
-    console.log("orig:" + originalText);
-    let originalElement = document.createElement("h1");
-    originalElement.type = "text";
-    originalElement.innerHTML = originalText;
-    originalElement.className = "text-info";
-    originalElement.id = "username";
+function revertToOriginalElement(userId, inputElement, value) {
+    let originalText = value;
 
-    // Replace the input element with the original div element
-    inputElement.replaceWith(id, originalElement);
+    let originalElement = $("<h1>", {
+        id: userId,
+        text: originalText,
+        class: "text-info",
+    });
 
-    // Reattach click event handler to convert back to input
-    originalElement.addEventListener("click", function () {
-        convertToInputField(id, originalElement);
+    inputElement.replaceWith(originalElement);
+
+    originalElement.on("click", function () {
+        convertToInputField(originalElement);
     });
 }
 
-function updateUsername(id, newUsername) {
-    // Make an AJAX request to update the username
+function updateUsername(userId, newUsername) {
     $.ajax({
-        method: "POST", // Use PUT method to update the resource
-        url: "/api/user/update", // URL of your API endpoint
+        method: "POST",
+        url: "/api/user/update",
         data: {
+            id: userId,
             username: newUsername,
-            id: id,
         },
         success: function (response) {
-            // Handle success response
-            console.log("Username updated successfully!");
+            showToast(response.message, "success");
+            $(".username-container").each(function () {
+                $(this).text("@" + newUsername);
+            });
+            $("#navbarDropdown").text("@" + newUsername);
         },
         error: function (error) {
-            // Handle error response
-            console.error("Error updating username:", error);
+            showToast("Something went wrong", "error");
         },
     });
+}
+
+function showToast(message, result) {
+    $("#custom-toast").remove();
+    let toast;
+    if (result === "error") {
+        toast = $(
+            "<p id='custom-toast' class='bg-danger text-light p-2 rounded'></p>"
+        );
+    } else {
+        toast = $(
+            "<p id='custom-toast' class='bg-success text-light p-2 rounded'></p>"
+        );
+    }
+
+    toast.text(message);
+
+    $("#toastContainer").append(toast);
+    toast.css("opacity", 0);
+
+    toast.animate({ opacity: 1 }, 300);
+
+    setTimeout(function () {
+        toast.animate({ opacity: 0 }, 300);
+    }, 5000);
+    setTimeout(function () {
+        toast.remove();
+    }, 5300);
 }

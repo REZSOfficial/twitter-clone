@@ -28,7 +28,7 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-dark navbar-expand-md shadow-sm">
+        <nav class="navbar navbar-dark navbar-expand-md shadow">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/home') }}">
                     <i class="fa-brands fa-twitter text-info fs-1 bg-dark p-2 rounded shadow"></i>
@@ -92,7 +92,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main>
             @yield('content')
         </main>
     </div>

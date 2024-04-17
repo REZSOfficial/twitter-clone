@@ -34,6 +34,11 @@ class UserController extends Controller
             'username' => 'required'
         ]);
 
-        $user->update(['username' => $request->input('username')]);
+        if ($user->username === $request->input('username')) {
+            return response()->json(['message' => 'Username did not change!'], 200);
+        } else {
+            $user->update(['username' => $request->input('username')]);
+            return response()->json(['message' => 'Username updated successfully!'], 200);
+        }
     }
 }

@@ -1,25 +1,37 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="text-info">
-        <div class="d-flex">
-            <h1>{{'@'}}</h1>
-            <h1 @if (Auth::user()->id == $user->id) id="username" onclick="convertToInputField({{Auth::user()->id}},
-                this)"
-                @endif>{{$user->username}}</h1>
 
+
+<div class="text-info">
+    <div class="d-flex border-bottom border-2 border-info p-2 justify-content-between">
+        <div class="div mt-3">
+            <img src="{{asset('images/1340356.jpg')}}" width="150" height="150" style="object-fit: cover"
+                class="ms-2 rounded-circle border border-info" alt="">
+            <div class="ms-2 mt-2 d-flex">
+                <h1>{{'@'}}</h1>
+                <h1 @if (Auth::user()->id == $user->id) id="{{Auth::user()->id}}"
+                    onclick="convertToInputField(this)"
+                    @endif>{{$user->username}}</h1>
+                <div id="toastContainer" class="w-100 ms-4" style="min-height: 4rem">
+                </div>
+            </div>
         </div>
-        <h5>@if (Auth::user()->id == $user->id) Your profile @endif</h5>
-        <h5 class="text-light">{{$post_count}} post(s)</h3>
+        <div class="d-flex flex-column mt-auto me-2 mb-2">
+            <h5>@if (Auth::user()->id == $user->id) Your profile @endif</h5>
+            <h5 class="text-light">{{$post_count}} post(s)</h3>
+        </div>
     </div>
+
+</div>
+<div class="container">
     @foreach ($posts as $post)
     <div class="row justify-content-center my-5">
         <div class="col-md-8">
             <div class="card bg-custom-dark text-light shadow">
 
                 <div class="card-header d-flex justify-content-between">
-                    <div><a class="text-info text-decoration-none"
+                    <div><a class="username-container text-info text-decoration-none"
                             href="{{route('viewUser', ['id' => $post->user->id])}}">{{'@'}}{{$post->user->username}}</a>
                     </div>
                     <div onclick="showMessages({{Auth::user()->id}}, {{$post->user->id}})">
