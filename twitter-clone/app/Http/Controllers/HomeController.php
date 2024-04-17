@@ -28,12 +28,12 @@ class HomeController extends Controller
     public function index(): View
     {
         $user_likes = Postlike::where('user_id', Auth::user()->id)->pluck('post_id')->toArray();
-        //$posts = Post::withCount('postcomments')->with('postcomments')->withCount('postlikes')->with('user')->get();
-        $posts = Post::withCount('postcomments', 'postlikes') // Load counts of post comments and post likes
+
+        $posts = Post::withCount('postcomments', 'postlikes')
             ->with(['postcomments' => function ($query) {
-                $query->with('user'); // Eager load the user associated with each post comment
+                $query->with('user');
             }])
-            ->with('user') // Eager load the user who created each post
+            ->with('user')
             ->get();
         return view('home', ['posts' => $posts, 'user_likes' => $user_likes]);
     }

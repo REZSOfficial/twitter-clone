@@ -48,6 +48,8 @@ function like(postId, userId) {
             console.error(error);
         },
     });
+
+    event.stopPropagation();
 }
 
 function comment(postId, userId, userName) {
@@ -120,6 +122,84 @@ function sendMessage(userId, receiverId) {
         },
         error: function (xhr, status, error) {
             console.error(xhr);
+        },
+    });
+}
+/*
+$(document).ready(function () {
+    let originalElement = $("#username");
+
+    originalElement.on("click", function () {
+        convertToInputField(id, originalElement);
+    });
+});
+*/
+function convertToInputField(id, element) {
+    console.log(id);
+    let inputValue = element.textContent; // Get text content of the original element
+    console.log(inputValue);
+
+    // Create a new input element (using raw DOM element)
+    let inputElement = document.createElement("input");
+    inputElement.type = "text";
+    inputElement.value = inputValue;
+    inputElement.className =
+        "border border-dark border-1 fs-1 text-info rounded bg-dark w-25 h-100";
+
+    // Replace the original element with the new input element
+    element.parentNode.replaceChild(inputElement, element);
+
+    // Focus on the input field after replacing
+    inputElement.focus();
+
+    inputElement.addEventListener("keydown", function (event) {
+        if (event.keyCode === 13) {
+            // Check if Enter key is pressed
+            updateUsername(id, inputElement.value); // Call function to update username
+        }
+    });
+
+    // Add blur event handler to revert back to original element
+    inputElement.addEventListener("blur", function () {
+        revertToOriginalElement(id, inputElement, inputValue);
+    });
+}
+
+function revertToOriginalElement(id, inputElement, inputValue) {
+    console.log(inputValue);
+    let originalText = inputElement.value; // Get the value entered in the input field
+    console.log("orig:" + originalText);
+    let originalElement = document.createElement("h1");
+    originalElement.type = "text";
+    originalElement.innerHTML = originalText;
+    originalElement.className = "text-info";
+    originalElement.id = "username";
+
+    // Replace the input element with the original div element
+    inputElement.replaceWith(id, originalElement);
+
+    // Reattach click event handler to convert back to input
+    originalElement.addEventListener("click", function () {
+        convertToInputField(id, originalElement);
+    });
+}
+
+function updateUsername(id, newUsername) {
+    // Make an AJAX request to update the username
+    $.ajax({
+        method: "POST", // Use PUT method to update the resource
+        url: "/api/user/update", // URL of your API endpoint
+        data: {
+            username: newUsername,
+            id: id,
+        },
+        success: function (response) {
+            // Handle success response
+            console.log("Username updated successfully!");
+        },
+        error: function (error) {
+            // Handle error response
+            console.error("Error updating username:", error);
         },
     });
 }

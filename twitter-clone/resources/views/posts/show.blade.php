@@ -2,7 +2,7 @@
 <div class="row justify-content-center modal modal-lg fade" id="post-modal-{{$post->id}}" tabindex="-1"
     aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content card bg-custom-dark text-light shadow">
+        <div class="modal-content card bg-custom-dark text-light shadow h-100">
             <div class="card-header">{{'@'}}{{$post->user->username}}</div>
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
                 <div>{{$post->text}}</div>

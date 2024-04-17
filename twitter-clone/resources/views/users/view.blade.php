@@ -2,6 +2,17 @@
 
 @section('content')
 <div class="container">
+    <div class="text-info">
+        <div class="d-flex">
+            <h1>{{'@'}}</h1>
+            <h1 @if (Auth::user()->id == $user->id) id="username" onclick="convertToInputField({{Auth::user()->id}},
+                this)"
+                @endif>{{$user->username}}</h1>
+
+        </div>
+        <h5>@if (Auth::user()->id == $user->id) Your profile @endif</h5>
+        <h5 class="text-light">{{$post_count}} post(s)</h3>
+    </div>
     @foreach ($posts as $post)
     <div class="row justify-content-center my-5">
         <div class="col-md-8">
@@ -16,10 +27,10 @@
                     </div>
                 </div>
 
-
                 <div class="card-body d-flex flex-column align-items-center justify-content-center post-hover">
-                    <div data-bs-toggle="modal" data-bs-target="#post-modal-{{$post->id}}"
-                        class="d-flex flex-column align-items-center w-100">
+                    <div class="d-flex flex-column align-items-center w-100" data-bs-toggle="modal"
+                        data-bs-target="#post-modal-{{$post->id}}"
+                        class="d-flex flex-column align-items-center justify-content-center">
                         <div>{{$post->text}}</div>
                         <hr class="text-light w-75">
                         <img class="shadow w-75 rounded my-1" src="{{asset('images/'.$post->img)}}" alt="">

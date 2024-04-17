@@ -67,10 +67,14 @@
                                 {{'@'}}{{ Auth::user()->username }}
                             </a>
 
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                            <div class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item text-light bg-dark" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
+                                </a>
+                                <a class="dropdown-item text-light bg-dark"
+                                    href="{{route('viewUser', ['id' => Auth::user()->id])}}">
+                                    {{ __('Profile') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
