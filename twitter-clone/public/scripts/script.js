@@ -219,3 +219,7 @@ function showToast(message, result) {
         toast.remove();
     }, 5300);
 }
+
+function closeNotification() {
+    $("#profile-notification").remove();
+}

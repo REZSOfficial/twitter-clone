@@ -41,4 +41,27 @@ class UserController extends Controller
             return response()->json(['message' => 'Username updated successfully!'], 200);
         }
     }
+
+    public function updateProfilePicture($id, Request $request)
+    {
+        $request->validate([
+            'profilepicture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Handle file upload
+        if ($request->hasFile('profilepicture')) {
+            $imageName = time() . '.' . $request->file('profilepicture')->getClientOriginalExtension();
+            $request->file('profilepicture')->move(public_path('images'), $imageName);
+
+            // Update user's profile picture
+            $user = User::find($id);
+            if ($user) {
+                $user->profilepicture = $imageName;
+                $user->save();
+                session()->flash('success', 'Profile picture updated successfully!');
+            }
+        }
+
+        return redirect()->back();
+    }
 }

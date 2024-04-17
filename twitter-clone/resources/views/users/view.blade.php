@@ -2,12 +2,26 @@
 
 @section('content')
 
-
+@if (session('success'))
+<div id="profile-notification" class="bg-success text-dark ms-2 mt-2 p-2 rounded w-fit">
+    {{ session('success') }}<i onclick="closeNotification()" class="ms-3 fa-solid fa-x"></i>
+</div>
+@endif
 <div class="text-info">
     <div class="d-flex border-bottom border-2 border-info p-2 justify-content-between">
         <div class="div mt-3">
-            <img src="{{asset('images/1340356.jpg')}}" width="150" height="150" style="object-fit: cover"
-                class="ms-2 rounded-circle border border-info" alt="">
+            <div class="profile-picture-container">
+                @php
+                $profilePicture = $user->profilepicture ? asset('images/'.$user->profilepicture) :
+                asset('images/noprofilepicture.jpg');
+                @endphp
+                <img id="profile-picture" src="{{ $profilePicture }}" alt="Profile Picture" width="150" height="150"
+                    style="object-fit: cover" class="ms-2 rounded-circle border border-info">
+                <div class="overlay bg-dark text-light p-1 rounded" data-bs-toggle="modal"
+                    data-bs-target="#change-profile-modal">
+                    Change picture
+                </div>
+            </div>
             <div class="ms-2 mt-2 d-flex">
                 <h1>{{'@'}}</h1>
                 <h1 @if (Auth::user()->id == $user->id) id="{{Auth::user()->id}}"
@@ -69,6 +83,8 @@
     </div>
     @endforeach
     @include('posts.show')
+    @include('users.changeprofilepicutre')
 </div>
+
 <div id="messages-container" class="fixed-bottom w-fit d-flex flex-row"></div>
 @endsection

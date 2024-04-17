@@ -23,3 +23,4 @@ Route::post('/posts/save', [PostController::class, 'save'])->name('savePost');
 
 //Users
 Route::get('/user/{id}', [UserController::class, 'view'])->name('viewUser');
+Route::post('/user/upadteProfilePicture/{id}', [UserController::class, 'updateProfilePicture'])->name('updateProfilePicture');
