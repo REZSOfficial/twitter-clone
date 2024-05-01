@@ -22,4 +22,9 @@ class Postlike extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function getUserLikes($id): array
+    {
+        return Postlike::where('user_id', $id)->pluck('post_id')->toArray();
+    }
 }

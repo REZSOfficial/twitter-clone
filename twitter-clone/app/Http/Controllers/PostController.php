@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Post;
+use App\Models\Postcomment;
+use App\Models\Postlike;
+use GuzzleHttp\Psr7\Response;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,5 +41,14 @@ class PostController extends Controller
     public function create(): View
     {
         return view('posts.create');
+    }
+
+    public function delete($id, Response $response): RedirectResponse
+    {
+        Postlike::where('post_id', $id)->delete();
+        Postcomment::where('post_id', $id)->delete();
+        Post::find($id)->delete();
+
+        return redirect()->back();
     }
 }

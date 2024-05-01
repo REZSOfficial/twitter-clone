@@ -15,6 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -28,7 +29,7 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-dark navbar-expand-md shadow">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-md shadow">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/home') }}">
                     <i class="fa-brands fa-twitter text-info fs-1 bg-dark p-2 rounded shadow"></i>
@@ -67,14 +68,16 @@
                                 {{'@'}}{{ Auth::user()->username }}
                             </a>
 
-                            <div class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item text-light bg-dark" href="{{ route('logout') }}" onclick="event.preventDefault();
+                            <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
+                                aria-labelledby="navbarDropdown">
+
+                                <a class="dropdown-item" href="{{route('viewUser', ['id' => Auth::user()->id])}}">
+                                    {{ __('Profile') }}
+                                </a>
+
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
-                                </a>
-                                <a class="dropdown-item text-light bg-dark"
-                                    href="{{route('viewUser', ['id' => Auth::user()->id])}}">
-                                    {{ __('Profile') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -86,15 +89,18 @@
                         @endguest
                     </ul>
                 </div>
-                <div><a href="{{route('createPost')}}" class="btn"><i
-                            class="fa-solid fa-square-plus fs-1 text-info"></i></a>
+                @if (Auth::user())
+                <div>
+                    <a href="{{route('createPost')}}" class="btn"><i
+                            class="fa-solid fa-square-plus fs-1 text-info grow-btn"></i></a>
                 </div>
+                @endif
             </div>
         </nav>
 
-        <main>
+        <div class="main">
             @yield('content')
-        </main>
+        </div>
     </div>
 </body>
 

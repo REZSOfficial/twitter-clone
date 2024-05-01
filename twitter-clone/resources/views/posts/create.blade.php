@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container w-100 text-light rounded border border-2 border-info">
+<div class="container text-light rounded border border-2 border-info">
     <div class="row justify-content-center">
 
         <form method="POST" action="{{ route('savePost') }}" enctype="multipart/form-data"

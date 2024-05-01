@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Follow;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Postlike;
@@ -13,8 +14,9 @@ class UserController extends Controller
     public function view($id)
     {
         $user = User::find($id);
-        $post_count = Post::where('user_id', $id)->count();
-        $user_likes = Postlike::where('user_id', Auth::user()->id)->pluck('post_id')->toArray();
+        $post_count = Post::getPostCount($id);
+
+        $user_likes = Postlike::getUserLikes($id);
 
         $posts = Post::withCount('postcomments', 'postlikes')
             ->with(['postcomments' => function ($query) {
@@ -24,7 +26,10 @@ class UserController extends Controller
             ->where('user_id', $id)
             ->get();
 
-        return view('users.view', ['posts' => $posts, 'user_likes' => $user_likes, 'user' => $user, 'post_count' => $post_count]);
+        $followed = User::getFollowed($id);
+        $followers = User::getFollowers($id);
+
+        return view('users.view', ['posts' => $posts, 'user_likes' => $user_likes, 'user' => $user, 'post_count' => $post_count, 'followed' => $followed, 'followers' => $followers]);
     }
 
     public function changeusername(Request $request)

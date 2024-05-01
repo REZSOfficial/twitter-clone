@@ -3,11 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\CanResetPassword;
 
 class User extends Authenticatable
 {
@@ -67,5 +69,15 @@ class User extends Authenticatable
     public function message(): HasMany
     {
         return $this->hasMany(Message::class);
+    }
+
+    public static function getFollowed($id): Collection
+    {
+        return User::whereIn('id', Follow::where('follower', $id)->get('followed'))->get();
+    }
+
+    public static function getFollowers($id): Collection
+    {
+        return User::whereIn('id', Follow::where('followed', $id)->get('follower'))->get();
     }
 }

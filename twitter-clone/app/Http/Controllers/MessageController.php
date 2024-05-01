@@ -26,7 +26,9 @@ class MessageController extends Controller
         })->orWhere(function ($query) use ($user_id, $partner_id) {
             $query->where('sender_id', $partner_id)
                 ->where('receiver_id', $user_id);
-        })->get();
+        })
+            ->orderBy('created_at', 'asc')
+            ->get();
         return view('messages.show', ['messages' => $messages, 'user_id' => $user_id, 'partner' => $partner, 'partner_id' => $partner_id]);
     }
 

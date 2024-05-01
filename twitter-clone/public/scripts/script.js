@@ -14,6 +14,10 @@ $(document).ready(function () {
             reader.readAsDataURL(input.files[0]);
         }
     });
+
+    $("#confirmDeleteBtn").click(function () {
+        $("#deleteForm").submit();
+    });
 });
 
 function like(postId, userId) {
@@ -43,10 +47,7 @@ function like(postId, userId) {
                 $("#post-like-icon" + postId).addClass("text-danger");
             }
         },
-        error: function (xhr, status, error) {
-            console.log(xhr);
-            console.error(error);
-        },
+        error: function (xhr, status, error) {},
     });
 
     event.stopPropagation();
@@ -85,6 +86,14 @@ function comment(postId, userId, userName) {
     });
 }
 
+function setListener(userId, receiverId) {
+    $("#message-input").on("keydown", function (event) {
+        if (event.keyCode === 13) {
+            sendMessage(userId, receiverId);
+        }
+    });
+}
+
 function showMessages(userId, senderId) {
     hideMessage();
     if (!$("#message-" + userId).hasClass("opened")) {
@@ -108,16 +117,16 @@ function hideMessage() {
 
 function sendMessage(userId, receiverId) {
     let message = $("#message-input").val();
-    console.log(receiverId);
+    $("#message-input").val("");
     $.ajax({
         url: "/api/messages/send",
         type: "POST",
         data: { sender_id: userId, receiver_id: receiverId, message: message },
         success: function (response) {
             $("#sent-message-" + receiverId).append(
-                "<p class='fs-6 bg-dark border border-info text-info rounded p-2'>" +
+                "<div class='d-flex w-100 justify-content-end'><li class='fs-6 bg-dark border border-info text-info rounded p-2 mt-2'>" +
                     message +
-                    "</p>"
+                    "</li></div>"
             );
         },
         error: function (xhr, status, error) {
@@ -125,6 +134,7 @@ function sendMessage(userId, receiverId) {
         },
     });
 }
+
 function convertToInputField(element) {
     let inputValue = $(element).text();
     let userId = $(element).attr("id");
@@ -132,11 +142,24 @@ function convertToInputField(element) {
     let inputElement = $("<input>", {
         type: "text",
         value: inputValue,
-        class: "border border-dark border-1 fs-1 text-info rounded bg-dark w-25 h-100",
+        class: "fs-1 text-info rounded bg-dark",
+        css: {
+            height: $(element).outerHeight(),
+        },
+    });
+
+    inputElement.css({
+        width: $(element).outerWidth(),
+        transition: "width 0s ease-in-out",
     });
 
     $(element).replaceWith(inputElement);
-
+    inputElement.animate(
+        {
+            width: inputElement.get(0).scrollWidth + 50,
+        },
+        300
+    );
     inputElement.focus();
 
     inputElement.on("keydown", function (event) {
@@ -164,7 +187,19 @@ function revertToOriginalElement(userId, inputElement, value) {
         class: "text-info",
     });
 
+    originalElement.css({
+        width: $(inputElement).outerWidth(),
+        transition: "width 0s ease-in-out",
+    });
+
     inputElement.replaceWith(originalElement);
+
+    originalElement.animate(
+        {
+            width: originalElement.get(0).scrollWidth - 50,
+        },
+        300
+    );
 
     originalElement.on("click", function () {
         convertToInputField(originalElement);
