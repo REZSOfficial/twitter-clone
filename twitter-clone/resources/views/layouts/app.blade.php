@@ -63,9 +63,14 @@
                         @endif
                         @else
                         <li class="nav-item dropdown">
+
+
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{'@'}}{{ Auth::user()->username }}
+                                <img src="{{ asset('images/'.Auth::user()->profilepicture) }}" alt="Profile Picture"
+                                    width="60" height="60" style="object-fit: cover" class="rounded-circle border border-2 border-info
+                                me-3">{{'@'}}{{
+                                Auth::user()->username }}
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
