@@ -107,7 +107,7 @@
 
     <div class="d-flex border-dark bg-info" style="height: 100vh">
         <div class="w-50 d-flex flex-column justify-content-center align-items-center bg-dark">
-            <img width="400px" class="img-fluid" src="{{asset('images/logo.png')}}" alt="">
+            <img class="img-fluid" src="{{asset('images/logo.png')}}" alt="">
 
         </div>
         <div class="w-50 d-flex flex-column justify-content-center align-items-center">

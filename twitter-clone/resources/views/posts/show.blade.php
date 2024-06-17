@@ -6,8 +6,10 @@
             <div class="card-header bg-info text-dark fw-bold">{{'@'}}{{$post->user->username}}</div>
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
                 <div>{{$post->text}}</div>
+                @if ($post->img != null)
                 <hr class="text-light w-75">
                 <img class="shadow w-75 rounded my-1 img-fluid" src="{{asset('images/'.$post->img)}}" alt="">
+                @endif
                 <div class="comments w-75 custom-scroll">
                     <div class="d-flex my-3 me-2">
                         <div class="d-flex w-100">

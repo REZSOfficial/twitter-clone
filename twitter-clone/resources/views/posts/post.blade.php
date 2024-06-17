@@ -50,14 +50,15 @@
                 </div>
             </div>
 
-
             <div class="card-body d-flex flex-column align-items-center justify-content-center post-hover">
                 <div data-bs-toggle="modal" data-bs-target="#post-modal-{{$post->id}}"
                     class="d-flex flex-column align-items-center w-100">
                     <div class="w-75">{{$post->text}}</div>
                     <hr class="text-light w-75">
+                    @if ($post->img != null)
                     <img class="shadow w-75 rounded my-1" src="{{asset('images/'.$post->img)}}" alt="">
                     <hr class="text-light w-75">
+                    @endif
                 </div>
                 <div class="text-light w-75 px-3 d-flex justify-content-between align-items-center mt-3">
                     <i tabindex="-1" id="post-like-icon{{$post->id}}"
