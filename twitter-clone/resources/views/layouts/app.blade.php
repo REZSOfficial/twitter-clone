@@ -67,8 +67,10 @@
 
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <img src="{{ asset('images/'.Auth::user()->profilepicture) }}" alt="Profile Picture"
-                                    width="60" height="60" style="object-fit: cover" class="rounded-circle border border-2 border-info
+                                <img src="@if(Auth::user()->profilepicture)
+                                            {{asset('images/'.Auth::user()->profilepicture)}}
+                                            @else {{asset('images/noprofilepicture.jpg')}} @endif"
+                                    alt="Profile Picture" width="50" height="50" style="object-fit: cover" class="rounded-circle border border-2 border-info
                                 me-3">{{'@'}}{{
                                 Auth::user()->username }}
                             </a>
